@@ -1,46 +1,27 @@
-$(document).ready(function() {
-  function createGrid(number) {
-    for (var i = 0; i < number;i++) {
-      var newRow = $('<div class = "row"></div>');
-      $('#container').append(newRow);
-    }
-    for (var c = 0; c < number; c++) {
-      var newColumn = $('<div class = "column"></div>');
-      $('.row').append(newColumn);
-    }
-  }
-  var currentSize = 16;
-  createGrid(currentSize);
+function createBox(size) {
+  var boxSize = 520/size; //1000px is the height and width of the box, boxSize just divides it so that the cells can be a certain size so that they fit in
 
+  $('#wrapper').empty(); //Makes sure the box is clear
 
-  var pSize = $('.column').outerHeight();
-
-  function newGrid(newNum) {
-    $('.row').remove();
-    createGrid(newNum);
-    $('.column').outerHeight(oldSize*oldPixel/newNum);
-    $('.column').outerWidth(oldSize*oldPixel/newSize);
+  for (var i = 1; i <= size*size; i++) {
+    $('#wrapper').append('<div class = "cell"></div>');
   }
 
-  function clearGrid() {
-    $('.column').css('background-color', '#f2f2f2');
-    $('div').off();
-  }
+  $('.cell').width(boxSize);
+  $('.cell').height(boxSize);
 
-  $('div').on('mouseenter', '.column', function() {
-    $(this).css('background-color', '#c6e2ff');
-  })
+  $('.cell').mouseenter(function() {
+    $(this).addClass('filled');
+  });
+}
 
-  $('#sizeButton').on('click', function() {
-    var newColumn = prompt("Pick a number between 1 and 64");
-    if (newColumn == null) {
-      return;
-    }
-    else if (newColumn == "") {
-      return;
-    }
-    else {
-      newGrid(newClumn);
-    }
-  })
+$(document).ready(function () {
+  createBox(16);
+
+  $('#reset').click(function() {
+    $('.cell').removeClass('filled');
+    var newSize = prompt('What size do you want now?');
+    createBox(newSize);
+  });
+
 });
